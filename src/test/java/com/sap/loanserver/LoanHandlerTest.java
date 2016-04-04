@@ -35,7 +35,7 @@ public class LoanHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        this.classUnderTest = new LoanHandler();
+        this.classUnderTest = new LoanHandler(new FileBasedLoanRepository());
     }
 
     private void initWriter() throws IOException {
