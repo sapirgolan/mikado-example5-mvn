@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class LoanRepository {
+public class FileBasedLoanRepository {
 
     public final static String FILE_EXTENSION = ".loan";
     public final static String REPOSITORY_ROOT = System.getProperty("user.home") + "/loan";
