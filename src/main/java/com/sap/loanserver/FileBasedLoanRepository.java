@@ -8,16 +8,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FileBasedLoanRepository {
+public class FileBasedLoanRepository implements ILoanRepository {
 
     public final static String FILE_EXTENSION = ".loan";
     public final static String REPOSITORY_ROOT = System.getProperty("user.home") + "/loan";
 
+    @Override
     public LoanApplication fetch(String ticketId) {
         return fetch(Long.parseLong(ticketId));
     }
 
-    public LoanApplication fetch(long ticketId) {
+    private LoanApplication fetch(long ticketId) {
         File file = fileFromApplication(ticketId);
         try {
             String output = new Scanner(file).useDelimiter("\\Z").next();
@@ -27,6 +28,7 @@ public class FileBasedLoanRepository {
         }
     }
 
+    @Override
     public Ticket store(LoanApplication application) {
         try {
             new File(REPOSITORY_ROOT).mkdirs();
@@ -46,6 +48,7 @@ public class FileBasedLoanRepository {
         return new File(REPOSITORY_ROOT + "/" + applicationNo + FILE_EXTENSION);
     }
 
+    @Override
     public Ticket approve(String ticketId) {
         LoanApplication application = fetch(ticketId);
         application.approve();

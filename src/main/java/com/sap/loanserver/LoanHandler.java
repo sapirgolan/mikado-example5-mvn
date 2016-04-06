@@ -18,10 +18,10 @@ public class LoanHandler extends AbstractHandler {
     public static final String TICKET_ID = "ticketId";
     public static final String APPROVE = "approve";
 
-    private FileBasedLoanRepository loanRepository;
+    private ILoanRepository loanRepository;
 
-    public LoanHandler(FileBasedLoanRepository fileBasedLoanRepository) {
-        loanRepository = fileBasedLoanRepository;
+    public LoanHandler(ILoanRepository iLoanRepository) {
+        loanRepository = iLoanRepository;
     }
 
     @Override
