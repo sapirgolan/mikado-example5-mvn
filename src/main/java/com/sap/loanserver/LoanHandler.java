@@ -7,8 +7,6 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -90,18 +88,6 @@ public class LoanHandler extends AbstractHandler {
     private String fetchLoanInfo(String ticketId) {
         LoanApplication formerApplication = loanRepository.fetch(ticketId);
         return new Gson().toJson(formerApplication);
-    }
-
-    public static long getNextId() {
-        File file = new File(FileBasedLoanRepository.REPOSITORY_ROOT);
-        File[] files = file.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                return pathname.getName().endsWith(FileBasedLoanRepository.FILE_EXTENSION);
-            }
-        });
-
-        return files == null ? 0 : files.length + 1;
     }
 
 }

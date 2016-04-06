@@ -2,10 +2,7 @@ package com.sap.loanserver;
 
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class FileBasedLoanRepository implements ILoanRepository {
@@ -54,6 +51,18 @@ public class FileBasedLoanRepository implements ILoanRepository {
         application.approve();
         store(application);
         return new Ticket(application.getApplicationNo());
+    }
+
+    public static long getNextId() {
+        File file = new File(REPOSITORY_ROOT);
+        File[] files = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.getName().endsWith(FILE_EXTENSION);
+            }
+        });
+
+        return files == null ? 0 : files.length + 1;
     }
 
 }
