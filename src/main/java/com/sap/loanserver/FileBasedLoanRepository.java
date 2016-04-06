@@ -28,6 +28,7 @@ public class FileBasedLoanRepository implements ILoanRepository {
     @Override
     public Ticket store(LoanApplication application) {
         try {
+            application.setApplicationNo(getNextId());
             new File(REPOSITORY_ROOT).mkdirs();
             FileOutputStream fileOutputStream = new FileOutputStream(
                     fileFromApplication(application.getApplicationNo()));
@@ -53,7 +54,7 @@ public class FileBasedLoanRepository implements ILoanRepository {
         return new Ticket(application.getApplicationNo());
     }
 
-    public static long getNextId() {
+    private long getNextId() {
         File file = new File(REPOSITORY_ROOT);
         File[] files = file.listFiles(new FileFilter() {
             @Override
