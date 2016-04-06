@@ -111,6 +111,34 @@ public class LoanHandlerTest {
         assertThat(response.getInt("id"), Matchers.is(loanRequestID));
     }
 
+    @Test
+    public void twoNewLoansApplicationHaveDifferentIDs() throws Exception {
+        int firstLoadID, secondLoanID;
+        initWriter();
+        when(request.getParameter("amount")).thenReturn("1000");
+        when(request.getParameter("contact")).thenReturn("donald@ducks.com");
+        when(request.getParameter("action")).thenReturn(LoanHandler.APPLICATION);
+
+        classUnderTest.handle(null, baseRequest, request, response);
+
+        JSONObject responseObj = getResponseAsJsonObject();
+        firstLoadID = responseObj.getInt("id");
+        assertThat(firstLoadID, Matchers.greaterThanOrEqualTo(0));
+
+
+        initWriter();
+        when(request.getParameter("amount")).thenReturn("1000");
+        when(request.getParameter("contact")).thenReturn("donald@ducks.com");
+        when(request.getParameter("action")).thenReturn(LoanHandler.APPLICATION);
+
+        classUnderTest.handle(null, baseRequest, request, response);
+        responseObj = getResponseAsJsonObject();
+        secondLoanID = responseObj.getInt("id");
+        assertThat(secondLoanID, Matchers.greaterThanOrEqualTo(0));
+
+        assertThat(firstLoadID, Matchers.lessThan(secondLoanID));
+    }
+
     private JSONObject getResponseAsJsonObject() {
         String response = getMessageText(out, writer);
         return new JSONObject(response.trim());
